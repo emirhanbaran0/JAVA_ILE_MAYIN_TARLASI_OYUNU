@@ -1,0 +1,274 @@
+import java.util.Random;
+import java.util.Scanner;
+public class Altyapi {
+   Scanner scan=new Scanner(System.in);
+   Random rand=new Random();
+   int satirsayisi,sutunsayisi;
+   int[][] harita;
+   int[][] cevapanahtari;
+   int basarilihamlesayisi=0;
+   boolean kontrol=true;
+   
+   public void Bilgial()
+   {
+	System.out.println("********Mayin Tarlasi Oyununa Hosgeldiniz!!*****");
+   	System.out.print("Oynanacak Haritanin Satir Sayisini Giriniz: ");
+   	satirsayisi=scan.nextInt();
+   	if(satirsayisi<=0)
+   	{
+   		System.out.println("Lutfen Harita Boyutlarini Tekrar Giriniz!!\n(Not:Harita Boyutlari Sifirdan Buyuk Olmalidir.)");
+   		System.out.print("Oynanacak Haritanin Satir Sayisini Giriniz: ");
+   	   	satirsayisi=scan.nextInt();   		
+   	}
+	System.out.print("Oynanacak Haritanin Sutun Sayisini Giriniz: ");
+   	sutunsayisi=scan.nextInt();
+   	if(sutunsayisi<=0)
+   	{
+   		System.out.println("Lutfen Harita Boyutlarini Tekrar Giriniz!!\n(Not:Harita Boyutlari Sifirdan Buyuk Olmalidir.)");
+   		System.out.print("Oynanacak Haritanin Sutun Sayisini Giriniz: ");
+   	   	sutunsayisi=scan.nextInt();
+   	}
+   	this.satirsayisi=satirsayisi;
+   	this.sutunsayisi=sutunsayisi;
+   	harita=new int[satirsayisi][sutunsayisi];
+   	cevapanahtari=new int[satirsayisi][sutunsayisi];
+   }
+   
+   public void Mayinlama()
+   {    int mayinsayisi=(satirsayisi*sutunsayisi)/4;
+	   int a=0,b=0,i;  //Rastgele Mayin Koyduracagimiz Yerlerin Koordinatlari bu sekilde Alinacaktir.
+	   for(i=0;i<mayinsayisi;i++)
+	   {
+		   a=rand.nextInt(satirsayisi);
+		   b=rand.nextInt(sutunsayisi);
+		   if(cevapanahtari[a][b]!=-1)
+		   {
+			   cevapanahtari[a][b]=-1;
+		   }
+			  
+		   else
+			   i--;
+	   }
+   }
+   
+   public void yazdirma() {
+	   for(int i=0;i<this.satirsayisi;i++)
+	   {
+		   for(int j=0;j<this.sutunsayisi;j++)
+		   {
+			  if(cevapanahtari[i][j]!=-1)
+				  cevapanahtari[i][j]=0;
+		   }
+	   }
+	   for(int i=0;i<this.satirsayisi;i++)   //Oyunun cevaplari bu ic ice olan iki dongu ile gozukur.
+	   {
+		   for(int j=0;j<this.sutunsayisi;j++)
+		   
+		   {
+			  if(cevapanahtari[i][j]!=-1)
+			  {
+				 // System.out.print("  "+cevapanahtari[i][j]);  
+			  } 
+			  else
+			  {
+				  //System.out.print(" "+cevapanahtari[i][j]);
+			  }
+				  
+				  
+		   }
+		  System.out.print("\n");
+	   }
+   }
+   
+   public void harita()
+   {
+	   for(int i=0;i<this.satirsayisi;i++)
+	   {
+		   for(int j=0;j<this.sutunsayisi;j++)
+		   {
+			 harita[i][j]=0; 
+		   }
+	   } 
+   }
+   public void OyunEkrani() {
+	   System.out.println("\n\n*****OYUN BASLIYOR!*******\n\n");
+	   while(kontrol)
+	   {   
+		   for(int i=0;i<this.satirsayisi;i++)
+	   {
+		   for(int j=0;j<this.sutunsayisi;j++)
+		   {
+			System.out.print(harita[i][j]+"  ");
+		   }
+		   System.out.print("\n");
+	   } 
+		   int satir,sutun;
+		   System.out.println("Hamlenizi Yapin");
+		   System.out.print("Satir Koordinati: ");
+		   satir=scan.nextInt();
+		   if(satir>=this.satirsayisi || satir<0)
+		   {
+			   System.out.println("Lutfen Gecerli Bir Koordinat Giriniz: ");
+			   System.out.print("Satir Koordinati: ");
+			   satir=scan.nextInt();
+		   }
+		   System.out.print("Sutun Koordinati: ");
+		   sutun=scan.nextInt();
+		   if(sutun>=this.sutunsayisi || sutun<0)
+		   {
+			   System.out.println("Lutfen Gecerli Bir Koordinat Giriniz: ");
+			   System.out.print("Sutun Koordinati: ");
+			   sutun=scan.nextInt();
+		   }
+		   if(cevapanahtari[satir][sutun]==-1)
+		   {
+			   System.out.print("Mayina Bastiniz.Oyunu Kaybettiniz :-(");
+			   break;
+		   }
+		   else
+		   {    basarilihamlesayisi++;
+		       
+			   int mayinsayi=0;  //Girilen koordinatin cevresindeki mayinlari sayip atayacagimiz degisken.
+		      if(satir==0 && sutun==0)
+		      {
+		    	  if(cevapanahtari[satir+1][sutun]==-1)
+			       {
+			    	   mayinsayi++;
+			       }
+			       if(cevapanahtari[satir][sutun+1]==-1)
+			       {
+			    	   mayinsayi++;
+			       }
+			       harita[satir][sutun]=mayinsayi; 
+		      }
+		      else if(satir==0 && sutun==this.sutunsayisi-1)
+		      {
+		    	  if(cevapanahtari[satir+1][sutun]==-1)
+			       {
+			    	   mayinsayi++;
+			       }
+			       if(cevapanahtari[satir][sutun-1]==-1)
+			       {
+			    	   mayinsayi++;
+			       }
+			       harita[satir][sutun]=mayinsayi;
+		      }
+		      else if(satir==this.satirsayisi-1 && sutun==0)
+		      {
+		    	  if(cevapanahtari[satir-1][sutun]==-1)
+			       {
+			    	   mayinsayi++;
+			       }
+			       if(cevapanahtari[satir][sutun+1]==-1)
+			       {
+			    	   mayinsayi++;
+			       }
+			       harita[satir][sutun]=mayinsayi;
+		      }
+		      else if(satir==this.satirsayisi-1 && sutun==this.sutunsayisi-1)
+		      {
+		    	  if(cevapanahtari[satir-1][sutun]==-1)
+			       {
+			    	   mayinsayi++;
+			       }
+			       if(cevapanahtari[satir][sutun-1]==-1)
+			       {
+			    	   mayinsayi++;
+			       }
+			       harita[satir][sutun]=mayinsayi;
+		      }
+		      else if((satir!=0 || satir!=this.satirsayisi-1) && sutun==0)
+		      {
+		    	  if(cevapanahtari[satir+1][sutun]==-1)
+			       {
+			    	   mayinsayi++;
+			       }
+			       if(cevapanahtari[satir-1][sutun]==-1)
+			       {
+			    	   mayinsayi++;
+			       }
+			       if(cevapanahtari[satir][sutun+1]==-1)
+			       {
+			    	   mayinsayi++;
+			       }
+			       harita[satir][sutun]=mayinsayi;
+		      }
+		      else if((satir!=0 || satir!=this.satirsayisi-1) && sutun==this.sutunsayisi-1)
+		      {
+		    	  if(cevapanahtari[satir+1][sutun]==-1)
+			       {
+			    	   mayinsayi++;
+			       }
+			       if(cevapanahtari[satir-1][sutun]==-1)
+			       {
+			    	   mayinsayi++;
+			       }
+			       if(cevapanahtari[satir][sutun-1]==-1)
+			       {
+			    	   mayinsayi++;
+			       }
+			       harita[satir][sutun]=mayinsayi;
+		      }
+		      else if((sutun!=0 || sutun!=this.sutunsayisi-1) && satir==0)
+		      {
+		    	  if(cevapanahtari[satir+1][sutun]==-1)
+			       {
+			    	   mayinsayi++;
+			       }
+			       if(cevapanahtari[satir][sutun+1]==-1)
+			       {
+			    	   mayinsayi++;
+			       }
+			       if(cevapanahtari[satir][sutun-1]==-1)
+			       {
+			    	   mayinsayi++;
+			       }
+			       harita[satir][sutun]=mayinsayi;
+		      }
+		      else if((sutun!=0 || sutun!=this.sutunsayisi-1) && satir==this.satirsayisi-1)
+		      {
+		    	  if(cevapanahtari[satir-1][sutun]==-1)
+			       {
+			    	   mayinsayi++;
+			       }
+			       if(cevapanahtari[satir][sutun+1]==-1)
+			       {
+			    	   mayinsayi++;
+			       }
+			       if(cevapanahtari[satir][sutun-1]==-1)
+			       {
+			    	   mayinsayi++;
+			       }
+			       harita[satir][sutun]=mayinsayi;
+		      }
+		      else
+		      {
+		    	   if(cevapanahtari[satir+1][sutun]==-1)
+			       {
+			    	   mayinsayi++;
+			       }
+			       if(cevapanahtari[satir-1][sutun]==-1)
+			       {
+			    	   mayinsayi++;
+			       }
+			       if(cevapanahtari[satir][sutun+1]==-1)
+			       {
+			    	   mayinsayi++;
+			       }
+			       if(cevapanahtari[satir][sutun-1]==-1)
+			       {
+			    	   mayinsayi++;
+			       }
+			       harita[satir][sutun]=mayinsayi; 
+		      }
+		       if(basarilihamlesayisi==((this.sutunsayisi*this.sutunsayisi) - (this.sutunsayisi*this.satirsayisi)/4))
+		       {
+		    	  
+		    	   System.out.print("TEBRIKLER OYUNU KAZANDINIZ!!!!:-)))");
+		    	   break;
+		       }
+		   }
+		   
+	   }
+   }
+}
