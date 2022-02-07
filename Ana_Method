@@ -1,0 +1,14 @@
+
+public class AnaMethod {
+
+	public static void main(String[] args) {
+		Altyapi oyun=new Altyapi();
+		oyun.Bilgial();
+		oyun.Mayinlama();
+		oyun.yazdirma();
+		oyun.harita();
+		oyun.OyunEkrani();
+
+	}
+
+}
